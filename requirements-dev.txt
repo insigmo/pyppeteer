@@ -1,5 +1,6 @@
--r requirements-docs.txt
--r requirements-test.txt
+sphinx>=1.6,<1.8
+sphinxcontrib-asyncio
+m2r
 
 livereload
 flake8
@@ -8,6 +9,6 @@ pydocstyle
 readme_renderer
 doit
 pytest
-pytest-xdist
 pylint
-git+https://github.com/miyakogi/pyenchant.git
+syncer
+tornado>=5

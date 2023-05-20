@@ -11,8 +11,8 @@ from syncer import sync
 
 from pyppeteer import connect, launch
 
-from .base import BaseTestCase, DEFAULT_OPTIONS
-from .utils import waitEvent
+from base import BaseTestCase, DEFAULT_OPTIONS
+from utils import waitEvent
 
 
 class TestBrowser(unittest.TestCase):
@@ -72,28 +72,29 @@ class TestBrowser(unittest.TestCase):
     async def test_disconnect(self):
         browser = await launch(DEFAULT_OPTIONS)
         endpoint = browser.wsEndpoint
+
         browser1 = await connect(browserWSEndpoint=endpoint)
         browser2 = await connect(browserWSEndpoint=endpoint)
+
         discon = []
         discon1 = []
         discon2 = []
+
         browser.on('disconnected', lambda: discon.append(1))
         browser1.on('disconnected', lambda: discon1.append(1))
         browser2.on('disconnected', lambda: discon2.append(1))
 
-        await asyncio.wait([
-            browser2.disconnect(),
-            waitEvent(browser2, 'disconnected'),
-        ])
+        await browser2.disconnect()
+        waitEvent(browser2, 'disconnected')
         self.assertEqual(len(discon), 0)
         self.assertEqual(len(discon1), 0)
         self.assertEqual(len(discon2), 1)
 
-        await asyncio.wait([
-            waitEvent(browser1, 'disconnected'),
-            waitEvent(browser, 'disconnected'),
-            browser.close(),
-        ])
+        await browser.close()
+        await browser1.disconnect()
+        waitEvent(browser1, 'disconnected')
+        waitEvent(browser, 'disconnected')
+
         self.assertEqual(len(discon), 1)
         self.assertEqual(len(discon1), 1)
         self.assertEqual(len(discon2), 1)

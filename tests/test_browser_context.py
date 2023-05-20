@@ -9,8 +9,8 @@ from pyppeteer.errors import BrowserError
 
 from syncer import sync
 
-from .base import BaseTestCase
-from .utils import waitEvent
+from base import BaseTestCase
+from utils import waitEvent
 
 
 class BrowserBaseTestCase(BaseTestCase):

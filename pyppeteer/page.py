@@ -644,8 +644,7 @@ function addPageBinding(bindingName) {
             except Exception as e:
                 debugError(logger, e)
 
-        await asyncio.wait([_evaluate(frame, expression)
-                            for frame in self.frames])
+        [await _evaluate(frame, expression) for frame in self.frames]
 
     async def authenticate(self, credentials: Dict[str, str]) -> Any:
         """Provide credentials for http authentication.

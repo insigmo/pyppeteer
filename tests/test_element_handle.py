@@ -9,8 +9,8 @@ from syncer import sync
 import pyppeteer
 from pyppeteer.errors import ElementHandleError
 
-from .base import BaseTestCase
-from .frame_utils import attachFrame
+from base import BaseTestCase
+from frame_utils import attachFrame
 
 
 class TestBoundingBox(BaseTestCase):

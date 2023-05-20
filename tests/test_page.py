@@ -14,9 +14,9 @@ from syncer import sync
 from pyppeteer.errors import ElementHandleError, NetworkError, PageError
 from pyppeteer.errors import TimeoutError
 
-from .base import BaseTestCase
-from .frame_utils import attachFrame
-from .utils import waitEvent
+from base import BaseTestCase
+from frame_utils import attachFrame
+from utils import waitEvent
 
 iPhone = {
     'name': 'iPhone 6',
@@ -234,10 +234,11 @@ class TestEvaluate(BaseTestCase):
     async def test_nice_error_after_navigation(self):
         executionContext = await self.page.mainFrame.executionContext()
 
-        await asyncio.wait([
-            self.page.waitForNavigation(),
-            executionContext.evaluate('window.location.reload()'),
-        ])
+        await asyncio.create_task(
+            self.page.waitForNavigation(
+                await executionContext.evaluate('window.location.reload()')
+            )
+        )
 
         with self.assertRaises(NetworkError) as cm:
             await executionContext.evaluate('() => null')

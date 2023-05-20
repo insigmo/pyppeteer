@@ -10,7 +10,7 @@ from syncer import sync
 
 from pyppeteer.errors import NetworkError, PageError
 
-from .base import BaseTestCase
+from base import BaseTestCase
 
 
 class TestNetworkEvent(BaseTestCase):

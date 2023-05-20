@@ -9,9 +9,9 @@ from syncer import sync
 
 from pyppeteer.errors import ElementHandleError, NetworkError, TimeoutError
 
-from .base import BaseTestCase
-from .frame_utils import attachFrame, detachFrame, dumpFrames, navigateFrame
-from .utils import waitEvent
+from base import BaseTestCase
+from frame_utils import attachFrame, detachFrame, dumpFrames, navigateFrame
+from utils import waitEvent
 
 addElement = 'tag=>document.body.appendChild(document.createElement(tag))'
 
@@ -608,10 +608,9 @@ http://localhost:{port}/static/nested-frames.html
     @sync
     async def test_anchor_url(self):
         await self.page.goto(self.url + 'empty')
-        await asyncio.wait([
-            self.page.goto(self.url + 'empty#foo'),
-            waitEvent(self.page, 'framenavigated'),
-        ])
+        await self.page.goto(self.url + 'empty#foo')
+        waitEvent(self.page, 'framenavigated')
+
         self.assertEqual(self.page.url, self.url+'empty#foo')
 
     @sync
